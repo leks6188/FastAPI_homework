@@ -1,0 +1,24 @@
+services:
+
+  db:
+    image: postgres:14.3-alpine3.15
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    healthcheck: #
+      test: "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  fastapi_app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
