@@ -1,3 +1,5 @@
+import uuid
+
 from pydantic import BaseModel
 from typing import Literal
 from datetime import datetime
@@ -33,4 +35,27 @@ class UpdateAdvResponse(BaseModel):
     status:Literal["success"]
 
 class DeleteAdvResponse(BaseModel):
+    status:Literal["success"]
+
+class LoginRequest(BaseModel):
+    name:str
+    password:str
+
+class LoginResponse(BaseModel):
+    token:uuid.UUID
+
+class CreateUserRequest(BaseModel):
+    name:str
+    password:str
+    role:str|None=None
+
+class CreateUserResponse(BaseModel):
+    id:int
+    name:str
+
+class UpdateUserRequest(BaseModel):
+    name: str|None=None
+    password:str|None=None
+
+class DeleteUserResponse(BaseModel):
     status:Literal["success"]
